@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityCodeGen", "UnityCodeGen\UnityCodeGen.csproj", "{0FB7545F-D7C9-4F1E-912E-63E5327939D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityCodeGen.Test", "..\UnityCodeGen.Test\UnityCodeGen.Test.csproj", "{4E08B8DF-9092-4664-8AF9-49EEB09CD236}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FB7545F-D7C9-4F1E-912E-63E5327939D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB7545F-D7C9-4F1E-912E-63E5327939D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB7545F-D7C9-4F1E-912E-63E5327939D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB7545F-D7C9-4F1E-912E-63E5327939D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E08B8DF-9092-4664-8AF9-49EEB09CD236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E08B8DF-9092-4664-8AF9-49EEB09CD236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E08B8DF-9092-4664-8AF9-49EEB09CD236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E08B8DF-9092-4664-8AF9-49EEB09CD236}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DDB779C-C796-4458-9E43-1A80B5D74922}
+	EndGlobalSection
+EndGlobal
