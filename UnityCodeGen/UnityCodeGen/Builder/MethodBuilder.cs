@@ -16,6 +16,7 @@ namespace UnityCodeGen.Builder
         private bool _isAbstract;
         private bool _isVirtual;
         private AccessType _visibility;
+        private MethodBodyBuilder _body = new MethodBodyBuilder();
         private List<ParameterBuilder> _parameters = new List<ParameterBuilder>();
 
         public MethodBuilder WithName(string name)
@@ -61,6 +62,11 @@ namespace UnityCodeGen.Builder
             return builder;
         }
 
+        public MethodBodyBuilder WithBody()
+        {
+            return _body;
+        }
+
         public MethodNode Build()
         {
             return new MethodNode
@@ -72,6 +78,7 @@ namespace UnityCodeGen.Builder
                 ReturnType = _returnType,
                 Visibility = _visibility,
                 Parameters = _parameters.Map(p => p.Build()).ToArray(),
+                Body = _body.Build(),
             };
         }
     }

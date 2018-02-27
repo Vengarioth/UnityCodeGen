@@ -9,6 +9,9 @@ namespace UnityCodeGen.Builder
 {
     public class ParameterBuilder
     {
+        public string Name { get { return _name; } }
+        public string Type { get { return _type; } }
+
         private string _type;
         private string _name;
 

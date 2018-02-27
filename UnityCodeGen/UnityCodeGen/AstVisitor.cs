@@ -58,8 +58,11 @@ namespace UnityCodeGen
         protected void WalkMethodNode(MethodNode node)
         {
             node.Parameters?.ForEach(p => VisitParameterNode(p));
+            VisitMethodBody(node.Body);
         }
 
         protected virtual void VisitParameterNode(ParameterNode node) { }
+
+        protected virtual void VisitMethodBody(MethodBodyNode node) { }
     }
 }

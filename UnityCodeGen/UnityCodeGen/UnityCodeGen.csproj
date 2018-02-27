@@ -43,6 +43,7 @@
     <Compile Include="Ast\AccessType.cs" />
     <Compile Include="Ast\AstNode.cs" />
     <Compile Include="Ast\ClassNode.cs" />
+    <Compile Include="Ast\MethodBodyNode.cs" />
     <Compile Include="Ast\MethodNode.cs" />
     <Compile Include="Ast\NamespaceNode.cs" />
     <Compile Include="Ast\ParameterNode.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Builder\AstBuilder.cs" />
     <Compile Include="AstVisitor.cs" />
     <Compile Include="Builder\ClassBuilder.cs" />
+    <Compile Include="Builder\MethodBodyBuilder.cs" />
     <Compile Include="Builder\MethodBuilder.cs" />
     <Compile Include="Builder\NamespaceBuilder.cs" />
     <Compile Include="Builder\ParameterBuilder.cs" />
@@ -60,6 +62,8 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Ast\Expressions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

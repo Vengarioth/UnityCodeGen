@@ -77,5 +77,62 @@ namespace UnityCodeGen.Test
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
             System.IO.File.WriteAllText(location + ".result.cs", result);
         }
+
+        [TestMethod]
+        public void Test2()
+        {
+            var builder = new AstBuilder();
+
+            builder.WithUsing()
+                .WithNamespaceName("System");
+
+            var namespaceBuilder = builder.WithNamespace()
+                .WithName("TestNamespace");
+
+            var classBuilder = namespaceBuilder.WithClass()
+                .WithName("FooBar")
+                .WithVisibility(AccessType.Public)
+                .IsPartial(true);
+
+            var fooProperty = classBuilder.WithProperty()
+                .WithName("Foo")
+                .WithType("int")
+                .WithVisibility(AccessType.Public)
+                .WithSetVisibility(AccessType.Public);
+
+            var methodBuilder = classBuilder.WithMethod()
+                .WithVisibility(AccessType.Public)
+                .WithReturnType("void")
+                .WithName("Serialize");
+
+            var bufferParameter = methodBuilder.WithParameter()
+                .WithName("buffer")
+                .WithType("IWriteableBuffer");
+
+            var body = methodBuilder.WithBody()
+                .WithLine("{1}.WriteInt32({0});", fooProperty.Name, bufferParameter.Name);
+
+            methodBuilder = classBuilder.WithMethod()
+                .WithVisibility(AccessType.Public)
+                .WithReturnType("void")
+                .WithName("Deserialize");
+
+            bufferParameter = methodBuilder.WithParameter()
+                .WithName("buffer")
+                .WithType("IReadableBuffer");
+
+
+            body = methodBuilder.WithBody()
+                .WithLine("{0} = {1}.ReadInt32();", fooProperty.Name, bufferParameter.Name);
+
+            var ast = builder.Build();
+
+            var renderer = new CSharpRenderer();
+
+            var result = renderer.Render(ast);
+
+            var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            System.IO.File.WriteAllText(location + ".result2.cs", result);
+        }
     }
 }

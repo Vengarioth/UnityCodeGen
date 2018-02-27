@@ -14,6 +14,7 @@ namespace UnityCodeGen.Ast
         public bool IsStatic { get; set; }
         public bool IsAbstract { get; set; }
         public bool IsVirtual { get; set; }
+        public MethodBodyNode Body { get; set; }
         public ParameterNode[] Parameters { get; set; }
     }
 }

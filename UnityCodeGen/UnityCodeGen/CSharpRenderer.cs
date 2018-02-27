@@ -121,7 +121,7 @@ namespace UnityCodeGen
             AppendLine("{{");
             ++_indentation;
 
-            AppendLine("// TODO method body");
+            VisitMethodBody(node.Body);
 
             --_indentation;
             AppendLine("}}");
@@ -132,6 +132,14 @@ namespace UnityCodeGen
         {
             Append("{0} {1}", node.Type, node.Name);
             base.VisitParameterNode(node);
+        }
+
+        protected override void VisitMethodBody(MethodBodyNode node)
+        {
+            foreach(var line in node.Lines)
+            {
+                AppendLine(line);
+            }
         }
 
         public string Render(AstNode ast)

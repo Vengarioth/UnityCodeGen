@@ -9,6 +9,8 @@ namespace UnityCodeGen.Builder
 {
     public class PropertyBuilder
     {
+        public string Name { get { return _name; } }
+
         private string _name;
         private string _type;
         private AccessType _visibility;
