@@ -22,6 +22,7 @@ namespace UnityCodeGen
         protected void WalkAstNode(AstNode ast)
         {
             ast.Usings?.ForEach(u => VisitUsingNode(u));
+            ast.Structs?.ForEach(s => VisitStructNode(s));
             ast.Classes?.ForEach(c => VisitClassNode(c));
             ast.Namespaces?.ForEach(n => VisitNamespaceNode(n));
         }
@@ -36,7 +37,17 @@ namespace UnityCodeGen
         }
         protected void WalkNamespaceNode(NamespaceNode node)
         {
+            node.Structs?.ForEach(s => VisitStructNode(s));
             node.Classes?.ForEach(c => VisitClassNode(c));
+        }
+
+        protected virtual void VisitStructNode(StructNode node)
+        {
+            WalkStructNode(node);
+        }
+        protected void WalkStructNode(StructNode node)
+        {
+            node.Fields.ForEach(f => VisitFieldNode(f));
         }
 
         protected virtual void VisitClassNode(ClassNode node)
@@ -46,10 +57,13 @@ namespace UnityCodeGen
         protected void WalkClassNode(ClassNode node)
         {
             node.Properties?.ForEach(p => VisitPropertyNode(p));
+            node.Fields?.ForEach(f => VisitFieldNode(f));
             node.Methods?.ForEach(m => VisitMethodNode(m));
         }
 
         protected virtual void VisitPropertyNode(PropertyNode node) { }
+
+        protected virtual void VisitFieldNode(FieldNode node) { }
 
         protected virtual void VisitMethodNode(MethodNode node)
         {

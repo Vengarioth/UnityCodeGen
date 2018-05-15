@@ -14,6 +14,7 @@ namespace UnityCodeGen.Builder
         private AccessType _visibility;
         private bool _isPartial { get; set; }
         private readonly List<PropertyBuilder> _properties = new List<PropertyBuilder>();
+        private readonly List<FieldBuilder> _fields = new List<FieldBuilder>();
         private readonly List<MethodBuilder> _methods = new List<MethodBuilder>();
 
         public ClassBuilder WithName(string name)
@@ -41,6 +42,13 @@ namespace UnityCodeGen.Builder
             return propertyBuilder;
         }
 
+        public FieldBuilder WithField()
+        {
+            var fieldBuilder = new FieldBuilder();
+            _fields.Add(fieldBuilder);
+            return fieldBuilder;
+        }
+
         public MethodBuilder WithMethod()
         {
             var methodBuilder = new MethodBuilder();
@@ -56,6 +64,7 @@ namespace UnityCodeGen.Builder
                 Visibility = _visibility,
                 IsPartial = _isPartial,
                 Properties = _properties.Map(p => p.Build()).ToArray(),
+                Fields = _fields.Map(f => f.Build()).ToArray(),
                 Methods = _methods.Map(m => m.Build()).ToArray(),
             };
         }

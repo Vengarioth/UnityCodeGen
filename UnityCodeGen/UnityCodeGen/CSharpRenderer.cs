@@ -46,6 +46,24 @@ namespace UnityCodeGen
             AppendLine("}}");
         }
 
+        protected override void VisitStructNode(StructNode node)
+        {
+            AppendIndentation();
+            AppendAccesType(node.Visibility);
+
+            Append("struct {0}", node.Name);
+            AppendLineEnding();
+
+            AppendLine("{{");
+            ++_indentation;
+
+            base.VisitStructNode(node);
+
+            --_indentation;
+            AppendLine("}}");
+            AppendLineEnding();
+        }
+
         protected override void VisitClassNode(ClassNode node)
         {
             AppendIndentation();
@@ -65,6 +83,18 @@ namespace UnityCodeGen
 
             --_indentation;
             AppendLine("}}");
+            AppendLineEnding();
+        }
+
+        protected override void VisitFieldNode(FieldNode node)
+        {
+            AppendIndentation();
+
+            AppendAccesType(node.Visibility);
+            Append("{0} {1};", node.Type, node.Name);
+
+            base.VisitFieldNode(node);
+
             AppendLineEnding();
         }
 

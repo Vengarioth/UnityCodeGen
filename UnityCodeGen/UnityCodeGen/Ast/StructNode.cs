@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace UnityCodeGen.Ast
 {
-    public class NamespaceNode
+    public class StructNode
     {
         public string Name { get; set; }
-        public StructNode[] Structs { get; set; }
-        public ClassNode[] Classes { get; set; }
+        public AccessType Visibility { get; set; }
+        public FieldNode[] Fields { get; set; }
     }
 }

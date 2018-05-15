@@ -46,6 +46,11 @@ namespace UnityCodeGen.Test
                 .WithVisibility(AccessType.Public)
                 .IsPartial(true);
 
+            classBuilder.WithField()
+                .WithName("BarFoo")
+                .WithVisibility(AccessType.Public)
+                .WithType("int");
+
             var methodBuilder = classBuilder.WithMethod()
                 .WithVisibility(AccessType.Public)
                 .WithReturnType("void")
@@ -67,6 +72,15 @@ namespace UnityCodeGen.Test
             methodBuilder.WithParameter()
                 .WithName("buffer")
                 .WithType("IReadableBuffer");
+
+            var structBuilder = namespaceBuilder.WithStruct()
+                .WithName("FooStruct")
+                .WithVisibility(AccessType.Public);
+
+            structBuilder.WithField()
+                .WithName("Foo")
+                .WithType("int")
+                .WithVisibility(AccessType.Public);
 
             var ast = builder.Build();
 

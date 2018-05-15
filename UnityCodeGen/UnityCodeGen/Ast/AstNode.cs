@@ -9,6 +9,7 @@ namespace UnityCodeGen.Ast
     public class AstNode
     {
         public UsingNode[] Usings { get; set; }
+        public StructNode[] Structs { get; set; }
         public ClassNode[] Classes { get; set; }
         public NamespaceNode[] Namespaces { get; set; }
     }

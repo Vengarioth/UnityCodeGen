@@ -12,12 +12,20 @@ namespace UnityCodeGen.Builder
     {
         private string _name;
         private readonly List<ClassBuilder> _classBuilder = new List<ClassBuilder>();
+        private readonly List<StructBuilder> _structBuilder = new List<StructBuilder>();
 
         public ClassBuilder WithClass()
         {
             var classBuilder = new ClassBuilder();
             _classBuilder.Add(classBuilder);
             return classBuilder;
+        }
+
+        public StructBuilder WithStruct()
+        {
+            var structBuilder = new StructBuilder();
+            _structBuilder.Add(structBuilder);
+            return structBuilder;
         }
 
         public NamespaceBuilder WithName(string name)
@@ -32,6 +40,7 @@ namespace UnityCodeGen.Builder
             {
                 Name = _name,
                 Classes = _classBuilder.Map(c => c.Build()).ToArray(),
+                Structs = _structBuilder.Map(s => s.Build()).ToArray(),
             };
         }
     }
