@@ -58,7 +58,19 @@ namespace UnityCodeGen
         {
             node.Properties?.ForEach(p => VisitPropertyNode(p));
             node.Fields?.ForEach(f => VisitFieldNode(f));
+            if(node.Constructor != null)
+                VisitConstructorNode(node.Constructor);
             node.Methods?.ForEach(m => VisitMethodNode(m));
+        }
+
+        protected virtual void VisitConstructorNode(ConstructorNode node)
+        {
+            WalkConstructorNode(node);
+        }
+        protected void WalkConstructorNode(ConstructorNode node)
+        {
+            node.Parameters?.ForEach(p => VisitParameterNode(p));
+            VisitMethodBody(node.Body);
         }
 
         protected virtual void VisitPropertyNode(PropertyNode node) { }

@@ -43,6 +43,7 @@
     <Compile Include="Ast\AccessType.cs" />
     <Compile Include="Ast\AstNode.cs" />
     <Compile Include="Ast\ClassNode.cs" />
+    <Compile Include="Ast\ConstructorNode.cs" />
     <Compile Include="Ast\FieldNode.cs" />
     <Compile Include="Ast\MethodBodyNode.cs" />
     <Compile Include="Ast\MethodNode.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Builder\AstBuilder.cs" />
     <Compile Include="AstVisitor.cs" />
     <Compile Include="Builder\ClassBuilder.cs" />
+    <Compile Include="Builder\ConstructorBuilder.cs" />
     <Compile Include="Builder\FieldBuilder.cs" />
     <Compile Include="Builder\MethodBodyBuilder.cs" />
     <Compile Include="Builder\MethodBuilder.cs" />

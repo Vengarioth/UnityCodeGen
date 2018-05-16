@@ -148,5 +148,33 @@ namespace UnityCodeGen.Test
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
             System.IO.File.WriteAllText(location + ".result2.cs", result);
         }
+
+        [TestMethod]
+        public void Test3()
+        {
+            var builder = new AstBuilder();
+            var classBuilder = builder.WithClass()
+                .WithName("Foo");
+
+            var constructorBuilder = classBuilder.WithConstructor()
+                .WithVisibility(AccessType.Public);
+
+            var methodBuilder = classBuilder.WithMethod()
+                .WithName("Bar");
+
+            methodBuilder.WithBody()
+                .WithLine("for(var i = 0; i < 10; i++)")
+                .WithLine("{{")
+                .WithLine("}}");
+
+            var ast = builder.Build();
+
+            var renderer = new CSharpRenderer();
+
+            var result = renderer.Render(ast);
+
+            var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            System.IO.File.WriteAllText(location + ".result3.cs", result);
+        }
     }
 }

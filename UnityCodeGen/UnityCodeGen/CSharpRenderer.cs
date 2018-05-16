@@ -11,6 +11,7 @@ namespace UnityCodeGen
     public class CSharpRenderer : AstVisitor
     {
         private readonly StringBuilder _result;
+        private string _currentClassName;
         private int _indentation = 0;
 
         public CSharpRenderer()
@@ -30,20 +31,27 @@ namespace UnityCodeGen
 
         protected override void VisitUsingNode(UsingNode node)
         {
-            AppendLine("using {0};", node.NamespaceName);
+            AppendIndentation();
+            Append("using ");
+            Append(node.NamespaceName);
+            Append(";");
+            AppendLineEnding();
             base.VisitUsingNode(node);
         }
 
         protected override void VisitNamespaceNode(NamespaceNode node)
         {
-            AppendLine("namespace {0}", node.Name);
-            AppendLine("{{");
+            AppendIndentation();
+            Append("namespace ");
+            Append(node.Name);
+            AppendLineEnding();
+            AppendLine("{");
             ++_indentation;
 
             base.VisitNamespaceNode(node);
 
             --_indentation;
-            AppendLine("}}");
+            AppendLine("}");
         }
 
         protected override void VisitStructNode(StructNode node)
@@ -51,21 +59,24 @@ namespace UnityCodeGen
             AppendIndentation();
             AppendAccesType(node.Visibility);
 
-            Append("struct {0}", node.Name);
+            Append("struct ");
+            Append(node.Name);
             AppendLineEnding();
 
-            AppendLine("{{");
+            AppendLine("{");
             ++_indentation;
 
             base.VisitStructNode(node);
 
             --_indentation;
-            AppendLine("}}");
+            AppendLine("}");
             AppendLineEnding();
         }
 
         protected override void VisitClassNode(ClassNode node)
         {
+            _currentClassName = node.Name;
+
             AppendIndentation();
 
             AppendAccesType(node.Visibility);
@@ -73,16 +84,52 @@ namespace UnityCodeGen
             if (node.IsPartial)
                 Append("partial ");
             
-            Append("class {0}", node.Name);
+            Append("class ");
+            Append(node.Name);
             AppendLineEnding();
 
-            AppendLine("{{");
+            AppendLine("{");
             ++_indentation;
 
             base.VisitClassNode(node);
 
             --_indentation;
-            AppendLine("}}");
+            AppendLine("}");
+            AppendLineEnding();
+        }
+
+        protected override void VisitConstructorNode(ConstructorNode node)
+        {
+            AppendIndentation();
+            AppendAccesType(node.Visibility);
+
+            Append(_currentClassName);
+            Append("(");
+
+            if (node.Parameters != null)
+            {
+                var isFirst = true;
+                foreach (var p in node.Parameters)
+                {
+                    if (!isFirst)
+                        Append(", ");
+
+                    VisitParameterNode(p);
+
+                    isFirst = false;
+                }
+            }
+
+            Append(")");
+            AppendLineEnding();
+
+            AppendLine("{");
+            ++_indentation;
+
+            VisitMethodBody(node.Body);
+
+            --_indentation;
+            AppendLine("}");
             AppendLineEnding();
         }
 
@@ -91,7 +138,10 @@ namespace UnityCodeGen
             AppendIndentation();
 
             AppendAccesType(node.Visibility);
-            Append("{0} {1};", node.Type, node.Name);
+            Append(node.Type);
+            Append(" ");
+            Append(node.Name);
+            Append(";");
 
             base.VisitFieldNode(node);
 
@@ -103,12 +153,16 @@ namespace UnityCodeGen
             AppendIndentation();
 
             AppendAccesType(node.Visibility);
-            Append("{0} {1} {{ get; ", node.Type, node.Name);
+            Append(node.Type);
+            Append(" ");
+            Append(node.Name);
+            Append(" ");
+            Append("{ get; ");
 
             if(node.Visibility != node.SetVisibility)
                 AppendAccesType(node.SetVisibility);
 
-            Append("set; }}");
+            Append("set; }");
 
             base.VisitPropertyNode(node);
 
@@ -129,7 +183,14 @@ namespace UnityCodeGen
             if (node.IsVirtual)
                 Append("virtual");
 
-            Append("{0} {1}(", node.ReturnType, node.Name);
+            if (string.IsNullOrEmpty(node.ReturnType))
+                Append("void");
+            else
+                Append(node.ReturnType);
+
+            Append(" ");
+            Append(node.Name);
+            Append("(");
 
             if(node.Parameters != null)
             {
@@ -148,19 +209,21 @@ namespace UnityCodeGen
             Append(")");
             AppendLineEnding();
 
-            AppendLine("{{");
+            AppendLine("{");
             ++_indentation;
 
             VisitMethodBody(node.Body);
 
             --_indentation;
-            AppendLine("}}");
+            AppendLine("}");
             AppendLineEnding();
         }
 
         protected override void VisitParameterNode(ParameterNode node)
         {
-            Append("{0} {1}", node.Type, node.Name);
+            Append(node.Type);
+            Append(" ");
+            Append(node.Name);
             base.VisitParameterNode(node);
         }
 
@@ -185,15 +248,15 @@ namespace UnityCodeGen
                 _result.Append("    ");
         }
 
-        private void Append(string format, params object[] param)
+        private void Append(string value)
         {
-            _result.AppendFormat(format, param);
+            _result.Append(value);
         }
 
-        private void AppendLine(string format, params object[] param)
+        private void AppendLine(string line)
         {
             AppendIndentation();
-            Append(format, param);
+            Append(line);
             AppendLineEnding();
         }
 

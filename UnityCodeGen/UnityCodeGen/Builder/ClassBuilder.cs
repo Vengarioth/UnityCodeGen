@@ -13,6 +13,7 @@ namespace UnityCodeGen.Builder
         private string _name;
         private AccessType _visibility;
         private bool _isPartial { get; set; }
+        private ConstructorBuilder _constructorBuilder;
         private readonly List<PropertyBuilder> _properties = new List<PropertyBuilder>();
         private readonly List<FieldBuilder> _fields = new List<FieldBuilder>();
         private readonly List<MethodBuilder> _methods = new List<MethodBuilder>();
@@ -21,6 +22,12 @@ namespace UnityCodeGen.Builder
         {
             _name = name;
             return this;
+        }
+
+        public ConstructorBuilder WithConstructor()
+        {
+            _constructorBuilder = new ConstructorBuilder();
+            return _constructorBuilder;
         }
 
         public ClassBuilder IsPartial(bool value)
@@ -65,6 +72,7 @@ namespace UnityCodeGen.Builder
                 IsPartial = _isPartial,
                 Properties = _properties.Map(p => p.Build()).ToArray(),
                 Fields = _fields.Map(f => f.Build()).ToArray(),
+                Constructor = _constructorBuilder?.Build(),
                 Methods = _methods.Map(m => m.Build()).ToArray(),
             };
         }

@@ -11,6 +11,7 @@ namespace UnityCodeGen.Ast
         public string Name { get; set; }
         public AccessType Visibility { get; set; }
         public bool IsPartial { get; set; }
+        public ConstructorNode Constructor { get; set; }
         public PropertyNode[] Properties { get; set; }
         public FieldNode[] Fields { get; set; }
         public MethodNode[] Methods { get; set; }
