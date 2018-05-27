@@ -11,6 +11,7 @@ namespace UnityCodeGen.Ast
         public UsingNode[] Usings { get; set; }
         public StructNode[] Structs { get; set; }
         public ClassNode[] Classes { get; set; }
+        public EnumNode[] Enums { get; set; }
         public NamespaceNode[] Namespaces { get; set; }
     }
 }

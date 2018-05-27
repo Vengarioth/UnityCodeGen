@@ -286,5 +286,36 @@ namespace UnityCodeGen
             if(appendSpace)
                 _result.Append(" ");
         }
+
+        protected override void VisitEnumNode(EnumNode node)
+        {
+            AppendIndentation();
+            AppendAccesType(node.Visibility);
+
+            Append("enum ");
+            Append(node.Name);
+            AppendLineEnding();
+
+            AppendLine("{");
+            ++_indentation;
+
+            base.VisitEnumNode(node);
+
+            --_indentation;
+            AppendLine("}");
+            AppendLineEnding();
+        }
+
+        protected override void VisitEnumOption(string option)
+        {
+            AppendIndentation();
+            
+            Append(option);
+            Append(",");
+
+            AppendLineEnding();
+
+            base.VisitEnumOption(option);
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace UnityCodeGen
             ast.Usings?.ForEach(u => VisitUsingNode(u));
             ast.Structs?.ForEach(s => VisitStructNode(s));
             ast.Classes?.ForEach(c => VisitClassNode(c));
+            ast.Enums?.ForEach(e => VisitEnumNode(e));
             ast.Namespaces?.ForEach(n => VisitNamespaceNode(n));
         }
 
@@ -39,6 +40,7 @@ namespace UnityCodeGen
         {
             node.Structs?.ForEach(s => VisitStructNode(s));
             node.Classes?.ForEach(c => VisitClassNode(c));
+            node.Enums?.ForEach(e => VisitEnumNode(e));
         }
 
         protected virtual void VisitStructNode(StructNode node)
@@ -90,5 +92,15 @@ namespace UnityCodeGen
         protected virtual void VisitParameterNode(ParameterNode node) { }
 
         protected virtual void VisitMethodBody(MethodBodyNode node) { }
+
+        protected virtual void VisitEnumNode(EnumNode node)
+        {
+            WalkEnumNode(node);
+        }
+        protected void WalkEnumNode(EnumNode node)
+        {
+            node.Options?.ForEach(o => VisitEnumOption(o));
+        }
+        protected virtual void VisitEnumOption(string option) { }
     }
 }

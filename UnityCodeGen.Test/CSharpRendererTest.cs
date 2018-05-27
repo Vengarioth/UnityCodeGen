@@ -82,6 +82,14 @@ namespace UnityCodeGen.Test
                 .WithType("int")
                 .WithVisibility(AccessType.Public);
 
+            var enumBuilder = namespaceBuilder.WithEnum()
+                .WithVisibility(AccessType.Public)
+                .WithName("MyEnum");
+
+            enumBuilder.WithOption("One");
+            enumBuilder.WithOption("Two");
+            enumBuilder.WithOption("Three");
+
             var ast = builder.Build();
 
             var renderer = new CSharpRenderer();

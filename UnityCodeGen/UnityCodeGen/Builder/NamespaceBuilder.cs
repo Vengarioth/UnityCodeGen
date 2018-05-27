@@ -13,6 +13,7 @@ namespace UnityCodeGen.Builder
         private string _name;
         private readonly List<ClassBuilder> _classBuilder = new List<ClassBuilder>();
         private readonly List<StructBuilder> _structBuilder = new List<StructBuilder>();
+        private readonly List<EnumBuilder> _enumBuilder = new List<EnumBuilder>();
 
         public ClassBuilder WithClass()
         {
@@ -34,6 +35,13 @@ namespace UnityCodeGen.Builder
             return this;
         }
 
+        public EnumBuilder WithEnum()
+        {
+            var enumBuilder = new EnumBuilder();
+            _enumBuilder.Add(enumBuilder);
+            return enumBuilder;
+        }
+
         public NamespaceNode Build()
         {
             return new NamespaceNode
@@ -41,6 +49,7 @@ namespace UnityCodeGen.Builder
                 Name = _name,
                 Classes = _classBuilder.Map(c => c.Build()).ToArray(),
                 Structs = _structBuilder.Map(s => s.Build()).ToArray(),
+                Enums = _enumBuilder.Map(e => e.Build()).ToArray(),
             };
         }
     }

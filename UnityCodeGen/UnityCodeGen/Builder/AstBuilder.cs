@@ -13,6 +13,7 @@ namespace UnityCodeGen.Builder
         private readonly List<UsingBuilder> _usingBuilder = new List<UsingBuilder>();
         private readonly List<ClassBuilder> _classBuilder = new List<ClassBuilder>();
         private readonly List<StructBuilder> _structBuilder = new List<StructBuilder>();
+        private readonly List<EnumBuilder> _enumBuilder = new List<EnumBuilder>();
         private readonly List<NamespaceBuilder> _namespaceBuilder = new List<NamespaceBuilder>();
 
         public UsingBuilder WithUsing()
@@ -43,6 +44,13 @@ namespace UnityCodeGen.Builder
             return namespaceBuilder;
         }
 
+        public EnumBuilder WithEnum()
+        {
+            var enumBuilder = new EnumBuilder();
+            _enumBuilder.Add(enumBuilder);
+            return enumBuilder;
+        }
+
         public AstNode Build()
         {
             return new AstNode
@@ -50,6 +58,7 @@ namespace UnityCodeGen.Builder
                 Usings = _usingBuilder.Map(u => u.Build()).ToArray(),
                 Classes = _classBuilder.Map(c => c.Build()).ToArray(),
                 Structs = _structBuilder.Map(c => c.Build()).ToArray(),
+                Enums = _enumBuilder.Map(e => e.Build()).ToArray(),
                 Namespaces = _namespaceBuilder.Map(n => n.Build()).ToArray(),
             };
         }

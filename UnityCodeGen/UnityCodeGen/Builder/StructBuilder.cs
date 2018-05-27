@@ -25,6 +25,7 @@ namespace UnityCodeGen.Builder
             _visibility = visibility;
             return this;
         }
+
         public FieldBuilder WithField()
         {
             var fieldBuilder = new FieldBuilder();
