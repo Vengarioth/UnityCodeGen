@@ -175,6 +175,29 @@ namespace UnityCodeGen.Test
                 .WithLine("{{")
                 .WithLine("}}");
 
+            var secondMethodBuilder = classBuilder.WithMethod()
+                .WithName("FooBar")
+                .WithVisibility(AccessType.Public)
+                .WithTypeParameter("T")
+                .WithTypeParameter("U");
+
+            secondMethodBuilder.WithParameter()
+                .WithName("barFoo")
+                .WithType("T");
+
+            secondMethodBuilder.WithParameter()
+                .WithName("fooBar")
+                .WithType("U");
+
+            secondMethodBuilder.WithTypeConstraint()
+                .WithTypeParameterName("T")
+                .WithStructConstraint();
+
+            secondMethodBuilder.WithTypeConstraint()
+                .WithTypeParameterName("U")
+                .WithStructConstraint()
+                .WithConstraint("IDisposable");
+
             var ast = builder.Build();
 
             var renderer = new CSharpRenderer();

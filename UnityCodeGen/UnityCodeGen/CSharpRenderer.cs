@@ -83,7 +83,10 @@ namespace UnityCodeGen
 
             if (node.IsPartial)
                 Append("partial ");
-            
+
+            if (node.IsStatic)
+                Append("static ");
+
             Append("class ");
             Append(node.Name);
             AppendLineEnding();
@@ -175,21 +178,36 @@ namespace UnityCodeGen
             AppendAccesType(node.Visibility);
 
             if (node.IsStatic)
-                Append("static");
+                Append("static ");
 
             if (node.IsAbstract)
-                Append("abstract");
+                Append("abstract ");
 
             if (node.IsVirtual)
-                Append("virtual");
+                Append("virtual ");
 
             if (string.IsNullOrEmpty(node.ReturnType))
-                Append("void");
+                Append("void ");
             else
                 Append(node.ReturnType);
 
             Append(" ");
             Append(node.Name);
+
+            if(node.TypeParameters != null && node.TypeParameters.Length > 0)
+            {
+                Append("<");
+                for(var i = 0; i < node.TypeParameters.Length; i++)
+                {
+                    if(i != 0)
+                    {
+                        Append(", ");
+                    }
+                    Append(node.TypeParameters[i]);
+                }
+                Append(">");
+            }
+
             Append("(");
 
             if(node.Parameters != null)
@@ -209,6 +227,38 @@ namespace UnityCodeGen
             Append(")");
             AppendLineEnding();
 
+            if(node.TypeConstraints != null && node.TypeConstraints.Length > 0)
+            {
+                ++_indentation;
+
+                for(var i = 0; i < node.TypeConstraints.Length; i++)
+                {
+                    AppendIndentation();
+                    Append("where ");
+                    Append(node.TypeConstraints[i].TypeParameterName);
+                    Append(" : ");
+                    if(node.TypeConstraints[i].HasStructConstraint)
+                    {
+                        Append("struct");
+                        if(node.TypeConstraints[i].Constraints.Length > 0)
+                        {
+                            Append(", ");
+                        }
+                    }
+                    for(var j = 0; j < node.TypeConstraints[i].Constraints.Length; j++)
+                    {
+                        if(j != 0)
+                        {
+                            Append(", ");
+                        }
+                        Append(node.TypeConstraints[i].Constraints[j]);
+                    }
+                    AppendLineEnding();
+                }
+
+                --_indentation;
+            }
+
             AppendLine("{");
             ++_indentation;
 
@@ -221,9 +271,21 @@ namespace UnityCodeGen
 
         protected override void VisitParameterNode(ParameterNode node)
         {
+            if(node.IsRef)
+            {
+                Append("ref ");
+            }
             Append(node.Type);
             Append(" ");
             Append(node.Name);
+
+            if(node.HasDefault)
+            {
+                Append(" = default(");
+                Append(node.Type);
+                Append(")");
+            }
+
             base.VisitParameterNode(node);
         }
 

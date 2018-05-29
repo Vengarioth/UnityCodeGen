@@ -18,6 +18,8 @@ namespace UnityCodeGen.Builder
         private AccessType _visibility;
         private MethodBodyBuilder _body = new MethodBodyBuilder();
         private List<ParameterBuilder> _parameters = new List<ParameterBuilder>();
+        private List<string> _typeParameters = new List<string>();
+        private List<TypeConstraintBuilder> _typeConstraints = new List<TypeConstraintBuilder>();
 
         public MethodBuilder WithName(string name)
         {
@@ -35,6 +37,19 @@ namespace UnityCodeGen.Builder
         {
             _visibility = visibility;
             return this;
+        }
+
+        public MethodBuilder WithTypeParameter(string name)
+        {
+            _typeParameters.Add(name);
+            return this;
+        }
+
+        public TypeConstraintBuilder WithTypeConstraint()
+        {
+            var typeConstraintBuilder = new TypeConstraintBuilder();
+            _typeConstraints.Add(typeConstraintBuilder);
+            return typeConstraintBuilder;
         }
 
         public MethodBuilder IsStatic(bool value)
@@ -78,6 +93,8 @@ namespace UnityCodeGen.Builder
                 ReturnType = _returnType,
                 Visibility = _visibility,
                 Parameters = _parameters.Map(p => p.Build()).ToArray(),
+                TypeParameters = _typeParameters.ToArray(),
+                TypeConstraints = _typeConstraints.Map(t => t.Build()).ToArray(),
                 Body = _body.Build(),
             };
         }

@@ -14,10 +14,18 @@ namespace UnityCodeGen.Builder
 
         private string _type;
         private string _name;
+        private bool _isRef;
+        private bool _hasDefault;
 
         public ParameterBuilder WithName(string name)
         {
             _name = name;
+            return this;
+        }
+
+        public ParameterBuilder WithRef()
+        {
+            _isRef = true;
             return this;
         }
 
@@ -27,12 +35,20 @@ namespace UnityCodeGen.Builder
             return this;
         }
 
+        public ParameterBuilder WithDefault()
+        {
+            _hasDefault = true;
+            return this;
+        }
+
         public ParameterNode Build()
         {
             return new ParameterNode
             {
                 Name = _name,
                 Type = _type,
+                IsRef = _isRef,
+                HasDefault = _hasDefault,
             };
         }
     }

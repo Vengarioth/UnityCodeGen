@@ -83,8 +83,16 @@ namespace UnityCodeGen
         {
             WalkMethodNode(node);
         }
+        protected virtual void VisitTypeParameter(string name)
+        {
+        }
+        protected virtual void VisitTypeConstraint(TypeConstraintNode node)
+        {
+        }
         protected void WalkMethodNode(MethodNode node)
         {
+            node.TypeParameters?.ForEach(t => VisitTypeParameter(t));
+            node.TypeConstraints.ForEach(t => VisitTypeConstraint(t));
             node.Parameters?.ForEach(p => VisitParameterNode(p));
             VisitMethodBody(node.Body);
         }

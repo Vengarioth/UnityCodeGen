@@ -10,5 +10,7 @@ namespace UnityCodeGen.Ast
     {
         public string Type { get; set; }
         public string Name { get; set; }
+        public bool IsRef { get; set; }
+        public bool HasDefault { get; set; }
     }
 }
